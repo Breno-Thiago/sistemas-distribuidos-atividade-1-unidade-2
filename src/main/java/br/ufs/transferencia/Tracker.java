@@ -19,9 +19,14 @@ final class Tracker {
                 if (hash == null || hash.length() != 20 || id == null || id.length() != 20) throw new IllegalArgumentException("Identificador inválido");
                 int port = Integer.parseInt(q.get("port")); if (port < 1 || port > 65535) throw new IllegalArgumentException("Porta inválida");
                 String ip = x.getRemoteAddress().getAddress().getHostAddress();
-                var peers = swarms.computeIfAbsent(hash, k -> new ConcurrentHashMap<>());
+                boolean stopped = "stopped".equals(q.get("event"));
+                var peers = stopped ? swarms.getOrDefault(hash, new ConcurrentHashMap<>())
+                    : swarms.computeIfAbsent(hash, k -> new ConcurrentHashMap<>());
                 long now = System.nanoTime(); peers.values().removeIf(p -> now - p.seen > 120_000_000_000L);
-                if ("stopped".equals(q.get("event"))) peers.remove(id);
+                if (stopped) {
+                    peers.remove(id);
+                    if (peers.isEmpty()) swarms.remove(hash, peers);
+                }
                 else peers.put(id, new Peer(id, ip, port, now));
                 var others = peers.values().stream().filter(p -> !p.id.equals(id))
                     .map(p -> Map.<String, Object>of("peer id", p.id.getBytes(StandardCharsets.ISO_8859_1), "ip", p.ip, "port", p.port)).toList();

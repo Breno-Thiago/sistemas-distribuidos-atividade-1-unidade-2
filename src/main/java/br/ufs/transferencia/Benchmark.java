@@ -33,6 +33,10 @@ final class Benchmark {
                 seed.config(); for (var p : peers) p.config(); break;
             } catch (Exception e) { if (System.nanoTime() > limit) throw e; Thread.sleep(1000); }
         }
+        // Uma interrupção do executor pode deixar os nós trabalhando na execução antiga.
+        for (int i = 1; i <= 8; i++) Util.call("cliente" + i, "/cancel", Map.of());
+        seed.remove(); for (var p : peers) p.remove();
+        Util.call("tracker", "/reset", Map.of());
     }
     Path source(long bytes) throws Exception {
         Path file = Util.DATA.resolve("fonte/arquivo-" + bytes + ".bin");
@@ -63,12 +67,16 @@ final class Benchmark {
                 for (int clients : profile.equals("completo") ? new int[]{1, 2, 4, 8} : new int[]{1, 2})
                     for (int r = 1; r <= (profile.equals("completo") ? 3 : 1); r++) conditions.add(new Condition(mode, mb, clients, r));
             Collections.shuffle(conditions, new Random(20261004));
+            var sourceHashes = new HashMap<Integer, String>();
             int done = 0;
             for (var c : conditions) {
                 Path target = RESULTS.resolve(c.id() + ".json");
                 if (Files.exists(target)) {
                     var existing = Util.JSON.readValue(target.toFile(), Run.class);
-                    validate(existing, c); done++; Util.log("RETOMADA " + c.id()); continue;
+                    validate(existing, c);
+                    if (!sourceHashes.containsKey(c.mb)) sourceHashes.put(c.mb, Util.hash(source(c.mb * 1_000_000L)));
+                    if (!existing.sourceSha256.equals(sourceHashes.get(c.mb))) throw new IOException("Original diferente do resultado salvo: " + c.id());
+                    done++; Util.log("RETOMADA " + c.id()); continue;
                 }
                 Util.log("[" + (done + 1) + "/" + conditions.size() + "] " + c.id());
                 try {
@@ -187,6 +195,27 @@ final class Benchmark {
         try (var channel = FileChannel.open(RESULTS.resolve(".lock"), StandardOpenOption.CREATE, StandardOpenOption.WRITE); var lock = channel.tryLock()) {
             if (lock == null) throw new IOException("Executor ocupado");
             ready(); var checks = new ArrayList<String>();
+            var stoppedRequest = java.net.http.HttpRequest.newBuilder(URI.create("http://tracker:8080/announce?info_hash="
+                + "h".repeat(20) + "&peer_id=" + "i".repeat(20) + "&port=51413&event=stopped")).GET().build();
+            Util.HTTP.send(stoppedRequest, java.net.http.HttpResponse.BodyHandlers.discarding());
+            if (Util.call("tracker", "/status", Map.of()).path("swarms").asInt() != 0)
+                throw new IOException("Parada tardia recriou um enxame vazio");
+            checks.add("Tracker: notificação tardia de parada não recria enxame removido");
+            var interruptedFile = source(5_000_123);
+            Util.call("servidor", "/setup", Map.of("mode", "paralelo", "pool", POOL, "rate", 1_000_000));
+            for (int i = 1; i <= 4; i++) {
+                Util.call("cliente" + i, "/prepare", Map.of("file", interruptedFile.getFileName().toString()));
+                Util.call("cliente" + i, "/start", Map.of());
+            }
+            Thread.sleep(600);
+            ready();
+            for (int i = 1; i <= 4; i++) {
+                if (Util.call("cliente" + i, "/status", Map.of()).path("state").asText().equals("running"))
+                    throw new IOException("Transferência antiga continua ativa");
+                if (Files.exists(Util.DATA.resolve("cs-" + i).resolve(interruptedFile.getFileName() + ".part")))
+                    throw new IOException("Arquivo parcial não foi removido");
+            }
+            checks.add("Quatro transferências interrompidas: cancelamento, limpeza dos parciais e nova execução conferidos");
             for (var mode : List.of("sequencial", "paralelo", "pool")) {
                 var r = experiment(mode, 5_000_123, 4, 0);
                 int expected = mode.equals("sequencial") ? 1 : mode.equals("pool") ? Math.min(POOL, 4) : 4;

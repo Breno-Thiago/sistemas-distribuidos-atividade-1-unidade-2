@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+mkdir -p resultados relatorio
 inicio=$SECONDS
 etapa="construção"
 trap 'codigo=$?; if ((codigo != 0)); then printf "\nFALHA na etapa: %s (código %d).\n" "$etapa" "$codigo"; fi' EXIT

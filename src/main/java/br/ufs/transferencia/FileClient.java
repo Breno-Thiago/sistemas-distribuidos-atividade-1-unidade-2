@@ -9,6 +9,7 @@ final class FileClient {
     private volatile String state = "idle", error = "";
     private String name;
     private volatile Socket activeSocket;
+    private Thread transfer;
     private final Path dir;
     private final String host = System.getenv().getOrDefault("SERVER_HOST", "servidor");
     FileClient(String id) { dir = Util.DATA.resolve("cs-" + id); }
@@ -23,12 +24,22 @@ final class FileClient {
             synchronized (this) {
                 if (!state.equals("ready")) throw new IOException("Cliente não preparado");
                 state = "running";
-                Thread.ofPlatform().start(() -> download());
+                transfer = Thread.ofPlatform().unstarted(this::download);
+                transfer.start();
             }
             return status();
         });
         Util.route(web, "/cancel", b -> {
-            synchronized (this) { state = "cancelled"; if (activeSocket != null) activeSocket.close(); }
+            Thread previous;
+            synchronized (this) {
+                state = "cancelled";
+                if (activeSocket != null) activeSocket.close();
+                previous = transfer;
+            }
+            if (previous != null) {
+                previous.join(6000);
+                if (previous.isAlive()) throw new IOException("Transferência não encerrou após cancelamento");
+            }
             return status();
         });
         Util.route(web, "/status", b -> status()); web.start();
