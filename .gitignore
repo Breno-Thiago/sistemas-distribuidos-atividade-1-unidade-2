@@ -1,0 +1,5 @@
+/target/
+/.idea/
+*.log
+/resultados/.lock
+/relatorio/preview/

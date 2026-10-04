@@ -1,0 +1,16 @@
+{
+ "rpc-enabled": true, "rpc-bind-address": "0.0.0.0", "rpc-port": 9091,
+ "rpc-authentication-required": false, "rpc-whitelist-enabled": false,
+ "rpc-host-whitelist-enabled": false,
+ "download-dir": "/dados", "incomplete-dir-enabled": false,
+ "rename-partial-files": false, "start-added-torrents": false,
+ "dht-enabled": false, "pex-enabled": false, "lpd-enabled": false,
+ "port-forwarding-enabled": false, "peer-port": 51413,
+ "peer-port-random-on-start": false, "utp-enabled": false,
+ "speed-limit-up": 25000, "speed-limit-up-enabled": true,
+ "speed-limit-down-enabled": false, "ratio-limit-enabled": false,
+ "idle-seeding-limit-enabled": false, "seed-queue-enabled": false,
+ "download-queue-enabled": false, "peer-limit-global": 32,
+ "peer-limit-per-torrent": 32, "upload-slots-per-torrent": 8,
+ "cache-size-mb": 4, "message-level": 1
+}
