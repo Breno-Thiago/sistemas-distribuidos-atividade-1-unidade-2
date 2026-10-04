@@ -173,6 +173,25 @@ docker compose down -v
 
 CSVs e PDF permanecem nas pastas locais. Downloads temporários são limpos ao final de cada execução. Os dados trafegam pelos sockets; o volume compartilhado permite gerar originais e conferir hashes, e não substitui a transferência.
 
+## Formatação do relatório
+
+O [relatório PDF](relatorio/relatorio.pdf) segue uma apresentação acadêmica baseada nas orientações de normalização da [Biblioteca da UFES](https://biblioteca.ufes.br/normalizacao), que contemplam a NBR 14724:2024 e a NBR 6023:2025. Foi adaptado ao relatório de disciplina solicitado, com capa, folha de rosto, sumário, seções numeradas, referências e apêndice das 144 execuções.
+
+- Papel A4; margens superior e esquerda de 3 cm, inferior e direita de 2 cm.
+- Arial 12 no texto; espaçamento de 1,5; parágrafos justificados com recuo de 1,25 cm.
+- Tabelas, legendas e fontes em tamanho menor; referências com espaçamento simples.
+- Páginas contadas a partir da folha de rosto e numeração visível a partir da introdução, no canto superior direito.
+- Figuras e tabelas identificadas, com indicação da fonte dos dados.
+
+A geração continua em Java/PDFBox; não exige LaTeX. O Dockerfile obtém o pacote original Microsoft Core Fonts, confere seu SHA-256 e incorpora Arial e Arial Bold no PDF. As fontes ficam na imagem Docker e não são incluídas no Git. O build precisa de acesso à internet para essa etapa.
+
+Para atualizar somente o PDF a partir dos resultados existentes, sem iniciar os serviços ou repetir medições:
+
+```bash
+docker compose build servidor
+docker compose run --rm --no-deps -T executor relatorio
+```
+
 ## Código e Docker
 
 | Componente | Responsabilidade |
