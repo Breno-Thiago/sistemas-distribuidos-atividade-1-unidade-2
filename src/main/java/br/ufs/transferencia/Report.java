@@ -16,6 +16,28 @@ final class Report implements AutoCloseable {
     private PDPageContentStream canvas;
     private float y;
     private static final Color INK = new Color(25, 48, 67), ACCENT = new Color(0, 113, 133);
+    void box(float x, float y, String label) throws IOException {
+        canvas.setNonStrokingColor(new Color(232, 244, 246)); canvas.addRect(x, y, 120, 35); canvas.fill();
+        textAt(x + 10, y + 13, label, 10, bold);
+    }
+    void arrow(float x1, float y1, float x2, float y2) throws IOException {
+        canvas.setStrokingColor(ACCENT); canvas.moveTo(x1, y1); canvas.lineTo(x2, y2); canvas.stroke();
+        double angle = Math.atan2(y2-y1, x2-x1);
+        canvas.moveTo(x2, y2); canvas.lineTo(x2-(float)(8*Math.cos(angle-0.4)), y2-(float)(8*Math.sin(angle-0.4)));
+        canvas.moveTo(x2, y2); canvas.lineTo(x2-(float)(8*Math.cos(angle+0.4)), y2-(float)(8*Math.sin(angle+0.4))); canvas.stroke();
+    }
+    void tableHeader(boolean appendix) throws IOException {
+        String[] names = appendix ? new String[]{"Modo", "MB", "Clientes", "Rep.", "Mín.", "Média", "Máx.", "Total"} : new String[]{"Arquitetura", "Clientes", "Amostras", "Mínimo", "Média", "Máximo"};
+        float[] positions = appendix ? new float[]{45,133,170,222,266,337,408,479} : new float[]{45,175,240,320,400,480};
+        for (int i = 0; i < names.length; i++) textAt(positions[i], y, names[i], 9, bold);
+        y -= 25;
+    }
+    void tableRow(String[] values, boolean appendix) throws IOException {
+        float[] positions = appendix ? new float[]{45,133,170,222,266,337,408,479} : new float[]{45,175,240,320,400,480};
+        for (int i = 0; i < values.length; i++) textAt(positions[i], y, values[i], 9, font);
+        y -= 17;
+    }
+    static String number(double v) { return String.format(Locale.ROOT, "%.3f", v); }
     private static final Color[] COLORS = {new Color(0,113,133), new Color(47,94,174), new Color(218,143,44), new Color(125,71,153)};
     private Report() throws IOException {}
     void page(String title) throws IOException {
@@ -67,6 +89,17 @@ final class Report implements AutoCloseable {
             pdf.paragraph("Uma única máquina física, containers Docker em rede bridge interna. Os nós compartilham CPU, RAM, armazenamento e kernel. Portanto, os números não representam uma rede entre computadores físicos independentes.");
             pdf.paragraph("Java " + env.path("java").asText() + "; " + env.path("os").asText() + " " + env.path("arch").asText() + "; CPUs visíveis: " + env.path("processors").asInt() + ". " + env.path("cpu").asText());
             pdf.paragraph("Registro do ambiente: " + env.path("date").asText() + ". Detalhes adicionais do host e Docker constam em resultados/host.txt, quando coletados pelo roteiro.");
+            pdf.page("Fluxos de dados");
+            pdf.paragraph("Cliente-servidor: o servidor concentra o envio. Sequencial, paralelo e pool definem quantos downloads ele atende ao mesmo tempo.");
+            pdf.box(70,640,"Cliente 1"); pdf.box(70,570,"Cliente 2"); pdf.box(70,500,"Cliente N"); pdf.box(395,570,"Servidor Java");
+            pdf.arrow(395,587,190,657); pdf.arrow(395,587,190,587); pdf.arrow(395,587,190,517);
+            pdf.y = 460; pdf.paragraph("BitTorrent: linhas sólidas representam dados; o tracker apenas informa os participantes. Todos os peers pertencem a containers distintos no mesmo computador.");
+            pdf.box(235,345,"Tracker"); pdf.box(70,240,"Seed inicial"); pdf.box(235,240,"Peer 1"); pdf.box(400,240,"Peer 2");
+            pdf.canvas.setLineDashPattern(new float[]{4,4}, 0);
+            pdf.arrow(295,345,130,275); pdf.arrow(295,345,295,275); pdf.arrow(295,345,460,275); pdf.canvas.setLineDashPattern(new float[]{}, 0);
+            pdf.arrow(190,262,235,262); pdf.arrow(235,250,190,250); pdf.arrow(355,262,400,262); pdf.arrow(400,250,355,250);
+            pdf.arrow(130,240,130,200); pdf.arrow(130,200,460,200); pdf.arrow(460,200,460,240);
+            pdf.y = 155; pdf.paragraph("Peças validadas podem ser compartilhadas antes de o arquivo inteiro chegar. O seed original não precisa ser a única fonte de cada download.");
             pdf.page("Metodologia e interpretação");
             pdf.paragraph("Matriz: 5, 50 e 500 MB decimais; 1, 2, 4 e 8 clientes; quatro arquiteturas; três repetições. Total: 48 condições, 144 execuções, 540 downloads. O seed não é contado como cliente.");
             pdf.paragraph("Arquivos determinísticos não comprimidos são gerados antes dos testes. A preparação dos torrents, a validação inicial do seed e o início dos containers ficam fora da medição. Quatro execuções curtas aquecem o ambiente, sem entrar nas estatísticas. A ordem é embaralhada com semente 20261004.");
@@ -79,11 +112,11 @@ final class Report implements AutoCloseable {
             for (int mb : new int[]{5,50,500}) {
                 pdf.page("Resultados - arquivo de " + mb + " MB");
                 pdf.paragraph("Tempos observados em segundos. Amostras = clientes x 3 repetições. Mínimo, média e máximo referem-se aos downloads individuais.");
-                pdf.line("Arquitetura     Clientes  Amostras      Mínimo       Média       Máximo", 10, pdf.bold);
+                pdf.tableHeader(false);
                 for (var mode : Benchmark.MODES) {
                     for (int n : new int[]{1,2,4,8}) {
                         var v = times(runs, mode, mb, n); var s = Stats.of(v);
-                        pdf.line(String.format(Locale.ROOT, "%-12s       %d          %2d          %8.3f     %8.3f     %8.3f", label(mode), n, v.length, s.min(), s.mean(), s.max()), 10, pdf.font);
+                        pdf.tableRow(new String[]{label(mode), String.valueOf(n), String.valueOf(v.length), number(s.min()), number(s.mean()), number(s.max())}, false);
                     }
                     pdf.y -= 7;
                 }
@@ -128,10 +161,11 @@ final class Report implements AutoCloseable {
             var sorted = runs.stream().sorted(Comparator.comparing(Benchmark.Run::mode).thenComparingLong(Benchmark.Run::bytes).thenComparingInt(Benchmark.Run::clients).thenComparingInt(Benchmark.Run::repetition)).toList();
             for (int start = 0; start < sorted.size(); start += 36) {
                 pdf.page("Apêndice - tempos por execução");
-                pdf.line("Modo       MB   Clientes Rep.    Mín.      Média      Máx.     Makespan", 9, pdf.bold);
+                pdf.line("Tempos em segundos. Total = makespan (até todos concluírem).", 9, pdf.font);
+                pdf.tableHeader(true);
                 for (var r : sorted.subList(start, Math.min(start+36,sorted.size()))) {
                     var s = Stats.of(r.samples().stream().mapToDouble(Benchmark.Sample::seconds).toArray());
-                    pdf.line(String.format(Locale.ROOT,"%-10s %3d     %d      %d     %7.3f    %7.3f    %7.3f    %7.3f",label(r.mode()),r.bytes()/1_000_000,r.clients(),r.repetition(),s.min(),s.mean(),s.max(),r.makespan()),9,pdf.font);
+                    pdf.tableRow(new String[]{label(r.mode()), String.valueOf(r.bytes()/1_000_000), String.valueOf(r.clients()), String.valueOf(r.repetition()), number(s.min()), number(s.mean()), number(s.max()), number(r.makespan())}, true);
                 }
             }
             pdf.page("Referências e reprodução");

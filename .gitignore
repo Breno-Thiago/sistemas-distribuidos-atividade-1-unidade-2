@@ -3,3 +3,4 @@
 *.log
 /resultados/.lock
 /relatorio/preview/
+/resultados/*.tmp

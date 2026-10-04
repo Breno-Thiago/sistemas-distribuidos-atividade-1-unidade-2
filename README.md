@@ -1,6 +1,7 @@
 # Sistemas Distribuídos · Atividade 01 — Unidade 2
 
-**Aluno:** Breno Thiago Argemiro Santos  
+**Aluno:** Breno Thiago Argemiro Santos
+
 **Universidade Federal de Sergipe**
 
 Avaliação de desempenho de transferência de arquivos em três arquiteturas cliente-servidor e em **P2P com BitTorrent**. Java 21 implementa os servidores, clientes, tracker, controle dos experimentos e geração do relatório PDF. O Transmission executa o protocolo BitTorrent.

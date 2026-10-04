@@ -1,0 +1,47 @@
+{
+  "checks" : [ "sequencial: 4 downloads íntegros; pico=1", "paralelo: 4 downloads íntegros; pico=4", "pool: 4 downloads íntegros; pico=2", "BitTorrent: 4 downloads íntegros; upload dos peers=135144074 bytes; 12 conexões com recebimento observado", "Última peça parcial, limpeza dos downloads e reset do tracker conferidos" ],
+  "date" : "2026-10-04T19:57:02.912687101Z",
+  "p2p" : {
+    "schema" : "v1-observado-100ms",
+    "mode" : "bittorrent",
+    "bytes" : 50000123,
+    "clients" : 4,
+    "repetition" : 0,
+    "uploadBps" : 25000000,
+    "pool" : 2,
+    "date" : "2026-10-04T19:57:02.809574036Z",
+    "samples" : [ {
+      "client" : 1,
+      "seconds" : 35.312769904,
+      "verificationSeconds" : 0.047855748,
+      "startOffsetNanos" : 17613,
+      "sha256" : "8514705d322cc05b6acfc4c286c6bdbf15f125b20fe6e1b1b121a837439feeed"
+    }, {
+      "client" : 2,
+      "seconds" : 35.508573611,
+      "verificationSeconds" : 0.046679731,
+      "startOffsetNanos" : 25037,
+      "sha256" : "8514705d322cc05b6acfc4c286c6bdbf15f125b20fe6e1b1b121a837439feeed"
+    }, {
+      "client" : 3,
+      "seconds" : 35.509615067,
+      "verificationSeconds" : 0.0458167,
+      "startOffsetNanos" : 2004,
+      "sha256" : "8514705d322cc05b6acfc4c286c6bdbf15f125b20fe6e1b1b121a837439feeed"
+    }, {
+      "client" : 4,
+      "seconds" : 37.389039252,
+      "verificationSeconds" : 0.046818711,
+      "startOffsetNanos" : 60915,
+      "sha256" : "8514705d322cc05b6acfc4c286c6bdbf15f125b20fe6e1b1b121a837439feeed"
+    } ],
+    "makespan" : 37.389100167,
+    "startSkewMs" : 0.058911,
+    "serverPeak" : 0,
+    "seedUploaded" : 115412880,
+    "peersUploaded" : 135144074,
+    "peerLinks" : [ "peer1 <- 172.26.0.3", "peer1 <- 172.26.0.4", "peer1 <- 172.26.0.6", "peer2 <- 172.26.0.16", "peer2 <- 172.26.0.3", "peer2 <- 172.26.0.4", "peer3 <- 172.26.0.16", "peer3 <- 172.26.0.3", "peer3 <- 172.26.0.6", "peer4 <- 172.26.0.16", "peer4 <- 172.26.0.4", "peer4 <- 172.26.0.6" ],
+    "sourceSha256" : "8514705d322cc05b6acfc4c286c6bdbf15f125b20fe6e1b1b121a837439feeed"
+  },
+  "seedUploadBpsDuringTest" : 5000000
+}
