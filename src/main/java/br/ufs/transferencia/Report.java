@@ -285,10 +285,7 @@ final class Report implements AutoCloseable {
             pdf.page("7 CONCLUSÃO");
             pdf.paragraph("As quatro modalidades foram avaliadas com arquivos iguais, integridade conferida e procedimento documentado. A escolha de arquitetura depende da carga e do ambiente. Uma avaliação futura entre máquinas físicas, com maior número de repetições e controle de rede, permitiria ampliar a validade dos resultados.");
             pdf.page("8 REPRODUÇÃO DO EXPERIMENTO");
-            Path artifact = Benchmark.RESULTS.resolve("artefato-medido.txt");
-            if (Files.exists(artifact)) pdf.paragraph("Commit utilizado nas medições: " + Files.readAllLines(artifact).getFirst() + ". Hashes do JAR e da imagem estão no registro do artefato.");
             pdf.paragraph("Repositório: https://github.com/Breno-Thiago/sistemas-distribuidos-atividade-1-unidade-2");
-            pdf.paragraph("No projeto: docker compose up -d --build; docker compose run --rm executor testar; docker compose run --rm executor benchmark --perfil completo; docker compose run --rm executor relatorio. O README detalha requisitos, retomada e preservação dos resultados. O PDF é gerado em Java com Apache PDFBox (Apache Software Foundation, [s. d.]).");
             pdf.page("REFERÊNCIAS");
             pdf.reference("APACHE SOFTWARE FOUNDATION. Apache PDFBox. [S. l.], [s. d.]. Disponível em: https://pdfbox.apache.org/. Acesso em: 4 out. 2026.");
             pdf.reference("COHEN, Bram. The BitTorrent protocol specification. [S. l.], 2008. Disponível em: https://www.bittorrent.org/beps/bep_0003.html. Acesso em: 4 out. 2026.");
