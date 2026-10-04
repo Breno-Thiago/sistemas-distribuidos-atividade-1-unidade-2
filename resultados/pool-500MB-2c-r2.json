@@ -1,0 +1,30 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "pool",
+  "bytes" : 500000000,
+  "clients" : 2,
+  "repetition" : 2,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:28:03.427990665Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 43.864486904,
+    "verificationSeconds" : 0.560395744,
+    "startOffsetNanos" : 64002,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 2,
+    "seconds" : 43.663305648,
+    "verificationSeconds" : 0.542146024,
+    "startOffsetNanos" : 56498,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  } ],
+  "makespan" : 43.864550906,
+  "startSkewMs" : 0.007504,
+  "serverPeak" : 2,
+  "seedUploaded" : 0,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+}

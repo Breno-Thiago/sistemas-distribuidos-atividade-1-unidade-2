@@ -1,0 +1,66 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "bittorrent",
+  "bytes" : 50000000,
+  "clients" : 8,
+  "repetition" : 1,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:58:13.213849794Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 29.600969,
+    "verificationSeconds" : 0.042079428,
+    "startOffsetNanos" : 49674,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 2,
+    "seconds" : 29.601290584,
+    "verificationSeconds" : 0.044366277,
+    "startOffsetNanos" : 103715,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 3,
+    "seconds" : 29.601231142,
+    "verificationSeconds" : 0.042662752,
+    "startOffsetNanos" : 164790,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 4,
+    "seconds" : 29.601189694,
+    "verificationSeconds" : 0.042141053,
+    "startOffsetNanos" : 207570,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 5,
+    "seconds" : 29.600842253,
+    "verificationSeconds" : 0.044381326,
+    "startOffsetNanos" : 557065,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 6,
+    "seconds" : 29.600700046,
+    "verificationSeconds" : 0.050057232,
+    "startOffsetNanos" : 701406,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 7,
+    "seconds" : 29.600636807,
+    "verificationSeconds" : 0.042115094,
+    "startOffsetNanos" : 766308,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 8,
+    "seconds" : 29.601386293,
+    "verificationSeconds" : 0.053770437,
+    "startOffsetNanos" : 18846,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  } ],
+  "makespan" : 29.601405139,
+  "startSkewMs" : 0.747462,
+  "serverPeak" : 0,
+  "seedUploaded" : 400317408,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+}

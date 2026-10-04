@@ -1,0 +1,66 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "bittorrent",
+  "bytes" : 500000000,
+  "clients" : 8,
+  "repetition" : 3,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T21:13:26.931901337Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 48.661180844,
+    "verificationSeconds" : 0.613865719,
+    "startOffsetNanos" : 981915,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 2,
+    "seconds" : 48.661201283,
+    "verificationSeconds" : 0.65010495,
+    "startOffsetNanos" : 969191,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 3,
+    "seconds" : 48.345281821,
+    "verificationSeconds" : 0.581126114,
+    "startOffsetNanos" : 998045,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 4,
+    "seconds" : 48.170580777,
+    "verificationSeconds" : 0.620344647,
+    "startOffsetNanos" : 1008414,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 5,
+    "seconds" : 48.345269669,
+    "verificationSeconds" : 0.579214214,
+    "startOffsetNanos" : 1019164,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 6,
+    "seconds" : 49.117186249,
+    "verificationSeconds" : 0.60730623,
+    "startOffsetNanos" : 1032609,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 7,
+    "seconds" : 48.560400785,
+    "verificationSeconds" : 0.595181774,
+    "startOffsetNanos" : 1042658,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 8,
+    "seconds" : 47.901009705,
+    "verificationSeconds" : 0.575956015,
+    "startOffsetNanos" : 1051604,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  } ],
+  "makespan" : 49.118218858,
+  "startSkewMs" : 0.082413,
+  "serverPeak" : 0,
+  "seedUploaded" : 887156526,
+  "peersUploaded" : 3284384688,
+  "peerLinks" : [ "peer1 <- 172.26.0.15", "peer1 <- 172.26.0.18", "peer1 <- 172.26.0.3", "peer1 <- 172.26.0.4", "peer1 <- 172.26.0.5", "peer1 <- 172.26.0.6", "peer1 <- 172.26.0.9", "peer2 <- 172.26.0.15", "peer2 <- 172.26.0.16", "peer2 <- 172.26.0.18", "peer2 <- 172.26.0.3", "peer2 <- 172.26.0.4", "peer2 <- 172.26.0.5", "peer2 <- 172.26.0.9", "peer3 <- 172.26.0.15", "peer3 <- 172.26.0.16", "peer3 <- 172.26.0.18", "peer3 <- 172.26.0.3", "peer3 <- 172.26.0.5", "peer3 <- 172.26.0.6", "peer3 <- 172.26.0.9", "peer4 <- 172.26.0.15", "peer4 <- 172.26.0.16", "peer4 <- 172.26.0.18", "peer4 <- 172.26.0.4", "peer4 <- 172.26.0.5", "peer4 <- 172.26.0.6", "peer4 <- 172.26.0.9", "peer5 <- 172.26.0.15", "peer5 <- 172.26.0.16", "peer5 <- 172.26.0.3", "peer5 <- 172.26.0.4", "peer5 <- 172.26.0.5", "peer5 <- 172.26.0.6", "peer5 <- 172.26.0.9", "peer6 <- 172.26.0.15", "peer6 <- 172.26.0.16", "peer6 <- 172.26.0.18", "peer6 <- 172.26.0.3", "peer6 <- 172.26.0.4", "peer6 <- 172.26.0.6", "peer6 <- 172.26.0.9", "peer7 <- 172.26.0.16", "peer7 <- 172.26.0.18", "peer7 <- 172.26.0.3", "peer7 <- 172.26.0.4", "peer7 <- 172.26.0.5", "peer7 <- 172.26.0.6", "peer7 <- 172.26.0.9", "peer8 <- 172.26.0.15", "peer8 <- 172.26.0.16", "peer8 <- 172.26.0.18", "peer8 <- 172.26.0.3", "peer8 <- 172.26.0.4", "peer8 <- 172.26.0.5", "peer8 <- 172.26.0.6" ],
+  "sourceSha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+}

@@ -1,0 +1,42 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "paralelo",
+  "bytes" : 5000000,
+  "clients" : 4,
+  "repetition" : 3,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T19:59:03.614565368Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 0.897493723,
+    "verificationSeconds" : 0.004035309,
+    "startOffsetNanos" : 27070,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 2,
+    "seconds" : 0.897541583,
+    "verificationSeconds" : 0.003948816,
+    "startOffsetNanos" : 42299,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 3,
+    "seconds" : 0.897781413,
+    "verificationSeconds" : 0.003885047,
+    "startOffsetNanos" : 47729,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 4,
+    "seconds" : 0.897779689,
+    "verificationSeconds" : 0.003907418,
+    "startOffsetNanos" : 77245,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  } ],
+  "makespan" : 0.897856934,
+  "startSkewMs" : 0.050175,
+  "serverPeak" : 4,
+  "seedUploaded" : 0,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+}

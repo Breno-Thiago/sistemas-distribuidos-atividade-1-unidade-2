@@ -1,0 +1,66 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "paralelo",
+  "bytes" : 50000000,
+  "clients" : 8,
+  "repetition" : 1,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:17:51.427403541Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 16.012118441,
+    "verificationSeconds" : 0.040383515,
+    "startOffsetNanos" : 15309,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 2,
+    "seconds" : 16.012386442,
+    "verificationSeconds" : 0.040921761,
+    "startOffsetNanos" : 44213,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 3,
+    "seconds" : 16.012371846,
+    "verificationSeconds" : 0.041696589,
+    "startOffsetNanos" : 59511,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 4,
+    "seconds" : 16.012483394,
+    "verificationSeconds" : 0.0412587,
+    "startOffsetNanos" : 64891,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 5,
+    "seconds" : 16.012474968,
+    "verificationSeconds" : 0.040804652,
+    "startOffsetNanos" : 73718,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 6,
+    "seconds" : 16.012463877,
+    "verificationSeconds" : 0.04022584,
+    "startOffsetNanos" : 84909,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 7,
+    "seconds" : 16.012449792,
+    "verificationSeconds" : 0.039727158,
+    "startOffsetNanos" : 99265,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  }, {
+    "client" : 8,
+    "seconds" : 16.012507008,
+    "verificationSeconds" : 0.039203148,
+    "startOffsetNanos" : 42329,
+    "sha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+  } ],
+  "makespan" : 16.012549337,
+  "startSkewMs" : 0.083956,
+  "serverPeak" : 8,
+  "seedUploaded" : 0,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "6b874d461162536eddb049086fe81f05297c6c9278c92176a0358a67a34cec8f"
+}

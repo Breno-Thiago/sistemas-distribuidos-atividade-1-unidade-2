@@ -1,0 +1,66 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "sequencial",
+  "bytes" : 500000000,
+  "clients" : 8,
+  "repetition" : 1,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:38:23.974892384Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 51.36610738,
+    "verificationSeconds" : 0.496963707,
+    "startOffsetNanos" : 17343,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 2,
+    "seconds" : 30.475978941,
+    "verificationSeconds" : 0.501762125,
+    "startOffsetNanos" : 25708,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 3,
+    "seconds" : 192.965035105,
+    "verificationSeconds" : 0.566255041,
+    "startOffsetNanos" : 41037,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 4,
+    "seconds" : 163.689458708,
+    "verificationSeconds" : 0.498112535,
+    "startOffsetNanos" : 55986,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 5,
+    "seconds" : 134.32580804,
+    "verificationSeconds" : 0.567995999,
+    "startOffsetNanos" : 64852,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 6,
+    "seconds" : 222.245161461,
+    "verificationSeconds" : 0.502443982,
+    "startOffsetNanos" : 119756,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 7,
+    "seconds" : 83.861869601,
+    "verificationSeconds" : 0.743080566,
+    "startOffsetNanos" : 5470,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 8,
+    "seconds" : 107.79683474,
+    "verificationSeconds" : 0.732552307,
+    "startOffsetNanos" : 139714,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  } ],
+  "makespan" : 222.245281217,
+  "startSkewMs" : 0.134244,
+  "serverPeak" : 1,
+  "seedUploaded" : 0,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+}

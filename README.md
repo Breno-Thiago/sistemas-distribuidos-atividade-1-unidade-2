@@ -21,8 +21,8 @@ flowchart LR
     T -.-> Seed[Seed inicial]
     T -.-> P1[Peer 1]
     T -.-> P2[Peer 2]
-    Seed <--> P1
-    Seed <--> P2
+    Seed --> P1
+    Seed --> P2
     P1 <--> P2
   end
 ```
@@ -43,6 +43,15 @@ No BitTorrent, o arquivo `.torrent` descreve peças de 256 KiB e seus hashes. O 
 Requisitos: Docker Engine ou Docker Desktop com Compose v2, acesso à internet para construir as imagens e espaço livre para aproximadamente 6 GB de dados temporários. Java e Maven são usados dentro do Docker. O Docker Desktop precisa estar configurado para containers Linux.
 
 Abra o terminal **na pasta deste projeto**:
+
+Se estiver baixando o projeto pela primeira vez:
+
+```bash
+git clone https://github.com/Breno-Thiago/sistemas-distribuidos-atividade-1-unidade-2.git
+cd sistemas-distribuidos-atividade-1-unidade-2
+```
+
+Depois, execute:
 
 ```bash
 docker compose up -d --build
@@ -92,6 +101,7 @@ docker compose run --rm executor testar
 | BitTorrent real | Seed a 5 MB/s somente neste teste; upload positivo dos peers e conexões com recebimento de outro peer |
 | Última peça incompleta | Arquivos com tamanhos que não são múltiplos de 256 KiB |
 | Limpeza | Downloads removidos e tracker sem enxames depois do teste |
+| Retomada | Quatro transferências interrompidas são canceladas, sem parciais, antes de novos downloads |
 | Falhas | Testes unitários de transferência interrompida, timeout e conteúdo corrompido |
 | Estatísticas | Mínimo, média e máximo confrontados com amostras conhecidas |
 | Limite agregado | Duas threads compartilham a mesma capacidade de upload |
@@ -100,11 +110,25 @@ Falhas fazem o programa encerrar com código diferente de zero. O teste de integ
 
 ## Resultados e relatório
 
+As medições publicadas já estão completas. O benchmark preserva esses registros; para medir novamente, siga a seção **Retomar, repetir e encerrar**.
+
+Exemplo: **500 MB, oito clientes, 24 tempos individuais nas três repetições**, em segundos:
+
+| Modalidade | Mínimo | Média | Máximo |
+|---|---:|---:|---:|
+| Sequencial | 28,902 | 125,317 | 223,434 |
+| Paralelo | 160,022 | 160,119 | 160,303 |
+| Pool (N = 2) | 36,371 | 101,206 | 163,804 |
+| BitTorrent | 47,392 | 48,464 | 49,256 |
+
+Esses números descrevem o ambiente local documentado; os outros tamanhos e quantidades de clientes estão nas tabelas e no PDF.
+
 - [Relatório PDF](relatorio/relatorio.pdf): metodologia, ambiente, tabelas, gráficos, discussão e apêndice.
 - [Resumo](resultados/resumo.csv): mínimo, média e máximo dos downloads por condição, reunindo três repetições.
 - [Execuções](resultados/execucoes.csv): estatísticas de cada execução, makespan e upload de seed/peers.
 - [Downloads](resultados/downloads.csv): tempo individual, verificação, desvio de início e hash.
 - Registros JSON por execução: evidência e retomada. `ambiente.json` registra versões e configuração; `host.txt` complementa o ambiente físico.
+- `artefato-medido.txt` identifica, em ordem, o commit das medições, o SHA-256 do JAR em execução e a imagem Transmission utilizada. As revisões posteriores melhoram retomada, limpeza e apresentação do relatório.
 
 Matriz: **5, 50 e 500 MB × 1, 2, 4 e 8 clientes × quatro modalidades × três repetições**. São 48 condições, 144 execuções e 540 downloads. MB é decimal: 1 MB = 1.000.000 bytes. Servidor e seed ficam fora da contagem de clientes.
 
@@ -132,6 +156,8 @@ Para **um novo conjunto de medições**, encerre os executores, renomeie a pasta
 # Exemplo no Bash; configuração diferente do experimento padrão
 POOL_N=4 UPLOAD_BPS=10000000 docker compose run --rm executor benchmark --perfil completo
 ```
+
+Ao alterar N ou a taxa, use os mesmos valores de configuração nos testes e na geração do PDF.
 
 Encerrar preservando resultados, PDF e volume:
 

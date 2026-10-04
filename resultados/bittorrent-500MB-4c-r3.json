@@ -1,0 +1,42 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "bittorrent",
+  "bytes" : 500000000,
+  "clients" : 4,
+  "repetition" : 3,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:16:49.625123277Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 49.255417265,
+    "verificationSeconds" : 0.616050895,
+    "startOffsetNanos" : 12924,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 2,
+    "seconds" : 54.757752238,
+    "verificationSeconds" : 0.633106822,
+    "startOffsetNanos" : 19706,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 3,
+    "seconds" : 50.287400089,
+    "verificationSeconds" : 0.608741401,
+    "startOffsetNanos" : 41127,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  }, {
+    "client" : 4,
+    "seconds" : 49.783393127,
+    "verificationSeconds" : 0.579227066,
+    "startOffsetNanos" : 62957,
+    "sha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+  } ],
+  "makespan" : 54.757771944,
+  "startSkewMs" : 0.050033,
+  "serverPeak" : 0,
+  "seedUploaded" : 837990228,
+  "peersUploaded" : 1194931375,
+  "peerLinks" : [ "peer1 <- 172.26.0.3", "peer1 <- 172.26.0.4", "peer1 <- 172.26.0.6", "peer2 <- 172.26.0.16", "peer2 <- 172.26.0.3", "peer2 <- 172.26.0.4", "peer3 <- 172.26.0.16", "peer3 <- 172.26.0.3", "peer3 <- 172.26.0.6", "peer4 <- 172.26.0.16", "peer4 <- 172.26.0.4", "peer4 <- 172.26.0.6" ],
+  "sourceSha256" : "bcab9b7e1b66e1e2ecf07d5ad8cda1503db641d77245c601a86b1102904eb869"
+}

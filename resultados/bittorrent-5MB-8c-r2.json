@@ -1,0 +1,66 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "bittorrent",
+  "bytes" : 5000000,
+  "clients" : 8,
+  "repetition" : 2,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:28:53.624605807Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 15.254350816,
+    "verificationSeconds" : 0.004031152,
+    "startOffsetNanos" : 147491,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 2,
+    "seconds" : 15.254329266,
+    "verificationSeconds" : 0.003939809,
+    "startOffsetNanos" : 170624,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 3,
+    "seconds" : 15.254324967,
+    "verificationSeconds" : 0.003981367,
+    "startOffsetNanos" : 176195,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 4,
+    "seconds" : 14.749660601,
+    "verificationSeconds" : 0.003972972,
+    "startOffsetNanos" : 184401,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 5,
+    "seconds" : 14.749653517,
+    "verificationSeconds" : 0.00416696,
+    "startOffsetNanos" : 192396,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 6,
+    "seconds" : 15.25428975,
+    "verificationSeconds" : 0.003916796,
+    "startOffsetNanos" : 214358,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 7,
+    "seconds" : 15.254288789,
+    "verificationSeconds" : 0.003965668,
+    "startOffsetNanos" : 225909,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 8,
+    "seconds" : 14.74966546,
+    "verificationSeconds" : 0.003939639,
+    "startOffsetNanos" : 183479,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  } ],
+  "makespan" : 15.254514698,
+  "startSkewMs" : 0.078418,
+  "serverPeak" : 0,
+  "seedUploaded" : 40031824,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+}

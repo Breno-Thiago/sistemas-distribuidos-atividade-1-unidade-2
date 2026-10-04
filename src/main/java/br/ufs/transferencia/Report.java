@@ -83,11 +83,21 @@ final class Report implements AutoCloseable {
             pdf.paragraph("Aluno: Breno Thiago Argemiro Santos. Universidade Federal de Sergipe. Disciplina: Sistemas Distribuídos.");
             pdf.paragraph("Objetivo: comparar três políticas de atendimento cliente-servidor e a distribuição P2P com BitTorrent. Os resultados abaixo foram coletados pela aplicação; os arquivos CSV e registros JSON permitem conferir cada observação.");
             pdf.line("Arquiteturas", 14, pdf.bold);
-            pdf.paragraph("Cliente-servidor: clientes -> servidor Java -> arquivo. No modo sequencial há um download ativo; no paralelo há uma thread por conexão; no pool o limite de atendimento é N=" + env.path("pool").asInt() + ". Os demais clientes aguardam e essa espera integra o tempo medido.");
-            pdf.paragraph("BitTorrent: tracker -> lista de participantes; seed <-> peers <-> peers. Transmission " + env.path("transmission").asText() + " transfere peças de 256 KiB e valida seus hashes. O tracker Java não transporta o arquivo. Quem termina continua compartilhando até todos concluírem.");
+            pdf.paragraph("Cliente-servidor: o arquivo no servidor Java é enviado aos clientes. No modo sequencial há um download ativo; no paralelo há uma thread por conexão; no pool o limite de atendimento é N=" + env.path("pool").asInt() + ". Os demais clientes aguardam e essa espera integra o tempo medido.");
+            pdf.paragraph("BitTorrent: tracker -> lista de participantes; seed -> peers <-> peers. Transmission " + env.path("transmission").asText() + " transfere peças de 256 KiB e valida seus hashes. O tracker Java não transporta o arquivo. Quem termina continua compartilhando até todos concluírem.");
             pdf.line("Ambiente real", 14, pdf.bold);
             pdf.paragraph("Uma única máquina física, containers Docker em rede bridge interna. Os nós compartilham CPU, RAM, armazenamento e kernel. Portanto, os números não representam uma rede entre computadores físicos independentes.");
             pdf.paragraph("Java " + env.path("java").asText() + "; " + env.path("os").asText() + " " + env.path("arch").asText() + "; CPUs visíveis: " + env.path("processors").asInt() + ". " + env.path("cpu").asText());
+            Path hostFile = Benchmark.RESULTS.resolve("host.txt");
+            if (Files.exists(hostFile)) {
+                var hostLines = Files.readAllLines(hostFile);
+                pdf.paragraph(hostLines.stream().filter(s -> s.startsWith("Docker Engine") || s.startsWith("Docker Compose")).collect(Collectors.joining("; ")));
+                for (var hostLine : hostLines) if (hostLine.startsWith("Mem:")) {
+                    var fields = hostLine.trim().split("\\s+");
+                    if (fields.length >= 7) pdf.paragraph("RAM total: " + fields[1] + "; disponível no início: " + fields[6] + ".");
+                }
+            }
+            pdf.paragraph("Limites por container: Java 256 MiB (heap máximo 192 MiB); Transmission 128 MiB. Os downloads de até 500 MB são gravados em disco.");
             pdf.paragraph("Registro do ambiente: " + env.path("date").asText() + ". Detalhes adicionais do host e Docker constam em resultados/host.txt, quando coletados pelo roteiro.");
             pdf.page("Fluxos de dados");
             pdf.paragraph("Cliente-servidor: o servidor concentra o envio. Sequencial, paralelo e pool definem quantos downloads ele atende ao mesmo tempo.");
@@ -97,7 +107,7 @@ final class Report implements AutoCloseable {
             pdf.box(235,345,"Tracker"); pdf.box(70,240,"Seed inicial"); pdf.box(235,240,"Peer 1"); pdf.box(400,240,"Peer 2");
             pdf.canvas.setLineDashPattern(new float[]{4,4}, 0);
             pdf.arrow(295,345,130,275); pdf.arrow(295,345,295,275); pdf.arrow(295,345,460,275); pdf.canvas.setLineDashPattern(new float[]{}, 0);
-            pdf.arrow(190,262,235,262); pdf.arrow(235,250,190,250); pdf.arrow(355,262,400,262); pdf.arrow(400,250,355,250);
+            pdf.arrow(190,262,235,262); pdf.arrow(355,262,400,262); pdf.arrow(400,250,355,250);
             pdf.arrow(130,240,130,200); pdf.arrow(130,200,460,200); pdf.arrow(460,200,460,240);
             pdf.y = 155; pdf.paragraph("Peças validadas podem ser compartilhadas antes de o arquivo inteiro chegar. O seed original não precisa ser a única fonte de cada download.");
             pdf.page("Metodologia e interpretação");
@@ -139,25 +149,37 @@ final class Report implements AutoCloseable {
                         float x = 90 + group * 115 + m * 23;
                         pdf.canvas.setNonStrokingColor(COLORS[m]); pdf.canvas.addRect(x, base, 18, (float)(value/max*height)); pdf.canvas.fill();
                     }
-                    pdf.textAt(113+group*115, 180, n + " clientes", 9, pdf.font); group++;
+                    pdf.textAt(113+group*115, 180, n == 1 ? "1 cliente" : n + " clientes", 9, pdf.font); group++;
                 }
                 for (int m = 0; m < 4; m++) {
                     pdf.canvas.setNonStrokingColor(COLORS[m]); pdf.canvas.addRect(45+m*130, 135, 10, 10); pdf.canvas.fill();
                     pdf.textAt(60+m*130,135,label(Benchmark.MODES.get(m)),9,pdf.font);
                 }
             }
+            pdf.page("Validação da implementação");
+            pdf.paragraph("Os testes funcionais são separados da matriz de desempenho. Eles conferem concorrência e conteúdo recebido, além de demonstrar colaboração entre participantes BitTorrent.");
+            Path testsFile = Benchmark.RESULTS.resolve("testes.json");
+            if (Files.exists(testsFile)) {
+                var tests = Util.JSON.readTree(testsFile.toFile());
+                pdf.paragraph("Registro: " + tests.path("date").asText());
+                for (var check : tests.path("checks")) pdf.paragraph(check.asText());
+                pdf.paragraph("Somente no teste de colaboração, o seed foi limitado a 5 MB/s, dando tempo para observar troca de peças entre peers. Na matriz principal, o limite nominal é 25 MB/s por nó.");
+            }
+            pdf.paragraph("Nove testes unitários passaram sem falhas, erros ou testes ignorados. Verificam estatísticas, última parte incompleta, interrupção, timeout, conteúdo corrompido, nomes de arquivo, identificadores do tracker, bencoding e upload agregado. Registro Maven: resultados/unitarios.txt.");
             pdf.page("Discussão dos resultados");
             for (int mb : new int[]{5,50,500}) {
                 String best = Benchmark.MODES.stream().min(Comparator.comparingDouble(m -> Stats.of(times(runs,m,mb,8)).mean())).orElseThrow();
                 double seq = Stats.of(times(runs,"sequencial",mb,8)).mean(); double bt = Stats.of(times(runs,"bittorrent",mb,8)).mean();
                 pdf.paragraph(String.format(Locale.ROOT,"Para %d MB e oito clientes, a menor média observada foi %s. Sequencial: %.3f s; BitTorrent: %.3f s. Esses valores descrevem este ambiente e não estabelecem superioridade geral da arquitetura.",mb,label(best),seq,bt));
             }
+            pdf.paragraph(String.format(Locale.ROOT, "Com 500 MB e apenas um cliente, BitTorrent teve média de %.3f s e sequencial de %.3f s. Sem outros clientes para compartilhar peças, não há contribuição de peers adicionais. A diferença observada inclui os custos das implementações e do ambiente, além do protocolo.",
+                Stats.of(times(runs,"bittorrent",500,1)).mean(), Stats.of(times(runs,"sequencial",500,1)).mean()));
             long uploaded = runs.stream().filter(r -> r.mode().equals("bittorrent")).mapToLong(Benchmark.Run::peersUploaded).sum();
             long evidence = runs.stream().filter(r -> r.mode().equals("bittorrent") && !r.peerLinks().isEmpty()).count();
             pdf.paragraph("O upload acumulado dos clientes BitTorrent foi " + uploaded + " bytes. Em " + evidence + " das 36 execuções BitTorrent houve recebimento de peers diferentes do seed observado nas consultas RPC. Contadores de upload e conexões estão nos registros JSON; amostragem pode não capturar conexões breves.");
             pdf.paragraph("No sequencial, espera na fila aumenta o tempo dos últimos clientes. Paralelo e pool dividem o mesmo upload do servidor: aumentar concorrência não multiplica sua capacidade. BitTorrent pode distribuir o envio entre participantes, mas descoberta, estabelecimento de conexões e seleção de peças adicionam custos.");
             pdf.paragraph("Arquivos pequenos tornam mais relevantes os custos fixos e a resolução de consulta. Para arquivos maiores, a distribuição do upload tem mais tempo para atuar. Disco compartilhado, cache, processos externos e limitadores diferentes são fatores de confusão. Três repetições fornecem uma descrição inicial, sem demonstrar significância estatística.");
-            pdf.paragraph("Conclusão: as quatro modalidades foram avaliadas com arquivos iguais, integridade conferida e tempos reproduzíveis. A escolha de arquitetura depende da carga e do ambiente. Uma avaliação futura entre máquinas físicas, com maior número de repetições e controle de rede, permitiria ampliar a validade dos resultados.");
+            pdf.paragraph("Conclusão: as quatro modalidades foram avaliadas com arquivos iguais, integridade conferida e procedimento documentado. A escolha de arquitetura depende da carga e do ambiente. Uma avaliação futura entre máquinas físicas, com maior número de repetições e controle de rede, permitiria ampliar a validade dos resultados.");
             var sorted = runs.stream().sorted(Comparator.comparing(Benchmark.Run::mode).thenComparingLong(Benchmark.Run::bytes).thenComparingInt(Benchmark.Run::clients).thenComparingInt(Benchmark.Run::repetition)).toList();
             for (int start = 0; start < sorted.size(); start += 36) {
                 pdf.page("Apêndice - tempos por execução");
@@ -169,6 +191,8 @@ final class Report implements AutoCloseable {
                 }
             }
             pdf.page("Referências e reprodução");
+            Path artifact = Benchmark.RESULTS.resolve("artefato-medido.txt");
+            if (Files.exists(artifact)) pdf.paragraph("Commit utilizado nas medições: " + Files.readAllLines(artifact).getFirst() + ". Hashes do JAR e da imagem estão no registro do artefato.");
             pdf.paragraph("BitTorrent BEP 3: https://www.bittorrent.org/beps/bep_0003.html - protocolo, metainfo, peças e tracker.");
             pdf.paragraph("Transmission 3.00 RPC: https://github.com/transmission/transmission/blob/3.00/extras/rpc-spec.txt - controle e estatísticas.");
             pdf.paragraph("Java 21: https://docs.oracle.com/en/java/javase/21/docs/api/ - sockets, executores e relógio monotônico.");
@@ -176,7 +200,8 @@ final class Report implements AutoCloseable {
             pdf.paragraph("Repositório: https://github.com/Breno-Thiago/sistemas-distribuidos-atividade-1-unidade-2");
             pdf.paragraph("No projeto: docker compose up -d --build; docker compose run --rm executor testar; docker compose run --rm executor benchmark --perfil completo; docker compose run --rm executor relatorio. O README detalha requisitos, retomada e preservação dos resultados.");
             pdf.canvas.close(); pdf.canvas = null;
-            docInfo(pdf.doc); pdf.doc.save("/relatorio/relatorio.pdf");
+            docInfo(pdf.doc); pdf.doc.save("/relatorio/relatorio.pdf.tmp");
+            Files.move(Path.of("/relatorio/relatorio.pdf.tmp"), Path.of("/relatorio/relatorio.pdf"), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
         }
         Util.log("PDF GERADO: relatorio/relatorio.pdf - 144 execuções e 540 downloads.");
     }

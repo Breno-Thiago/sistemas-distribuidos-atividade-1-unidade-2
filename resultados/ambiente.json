@@ -1,0 +1,12 @@
+{
+  "java" : "21.0.12.1",
+  "os" : "Linux",
+  "arch" : "amd64",
+  "date" : "2026-10-04T19:57:31.308944214Z",
+  "pool" : 2,
+  "cpu" : "model name\t: AMD Ryzen 5 5600G with Radeon Graphics",
+  "transmission" : "3.00 (bb6b5a062e)",
+  "pollMs" : 100,
+  "processors" : 12,
+  "uploadBps" : 25000000
+}

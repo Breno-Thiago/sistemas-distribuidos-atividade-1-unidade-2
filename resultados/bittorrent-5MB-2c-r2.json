@@ -1,0 +1,30 @@
+{
+  "schema" : "v1-observado-100ms",
+  "mode" : "bittorrent",
+  "bytes" : 5000000,
+  "clients" : 2,
+  "repetition" : 2,
+  "uploadBps" : 25000000,
+  "pool" : 2,
+  "date" : "2026-10-04T20:41:16.857117027Z",
+  "samples" : [ {
+    "client" : 1,
+    "seconds" : 14.436413285,
+    "verificationSeconds" : 0.004899092,
+    "startOffsetNanos" : 29346,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  }, {
+    "client" : 2,
+    "seconds" : 14.437640804,
+    "verificationSeconds" : 0.004829351,
+    "startOffsetNanos" : 165031,
+    "sha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+  } ],
+  "makespan" : 14.437805835,
+  "startSkewMs" : 0.135685,
+  "serverPeak" : 0,
+  "seedUploaded" : 10007956,
+  "peersUploaded" : 0,
+  "peerLinks" : [ ],
+  "sourceSha256" : "9057927ba06205f3be4765fe0b7bd4a3bd7c5896bc31fccb4e4d82b093f77d7a"
+}
