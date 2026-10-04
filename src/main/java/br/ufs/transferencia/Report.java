@@ -50,7 +50,7 @@ final class Report implements AutoCloseable {
         canvas.moveTo(LEFT, baseline); canvas.lineTo(RIGHT, baseline); canvas.stroke();
     }
     void tableSource() throws IOException {
-        rule(y + 8); caption("Fonte: dados do experimento (2026).");
+        rule(y + 8); y -= 8; caption("Fonte: dados do experimento (2026).");
     }
     static String number(double v) { return String.format(Locale.forLanguageTag("pt-BR"), "%.3f", v); }
     private static final Color[] COLORS = {new Color(0,113,133), new Color(47,94,174), new Color(218,143,44), new Color(125,71,153)};
